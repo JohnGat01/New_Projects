@@ -10,10 +10,17 @@ def get_html(url, params=None):
     r = requests.get(url, headers=HEADERS, params=params)
     return r
 
+def get_content(html):
+    soup =  BeautifulSoup(html, 'html.parcer')
+
 
 def parce():
     html = get_html(URL)
-    print(html)
+    if html.status_code == 200:
+        get_content(html.text)
+    else:
+        print('Error')
+
 
 
 parce()
