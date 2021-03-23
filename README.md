@@ -3,3 +3,4 @@
 Как дела?
 Хорошо!
 Точно?
+Of course my friend!
