@@ -1,17 +1,29 @@
 import requests
 from bs4 import BeautifulSoup
+from requests.models import Response
 
 URL = "https://www.olx.ua/nedvizhimost/kvartiry-komnaty/kiev/"
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0',
            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
            }
 
+
 def get_html(url, params=None):
     r = requests.get(url, headers=HEADERS, params=params)
     return r
 
+
 def get_content(html):
-    soup =  BeautifulSoup(html, 'html.parcer')
+    soup = BeautifulSoup(html, 'html.parser')
+    items = soup.find_all('tr', class_='wrap')
+
+    olx = []
+    for item in items:
+        olx.append({
+            'title': item.find('div', class_='space rel').get_text(strip=True),
+            'link': item.find('a', class_='marginright5').get('href'),
+        })
+    print(olx)
 
 
 def parce():
@@ -22,6 +34,4 @@ def parce():
         print('Error')
 
 
-
 parce()
-
