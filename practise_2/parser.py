@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import os
 
 URL = "https://www.olx.ua/transport/legkovye-avtomobili/acura/kiev/"
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0',
@@ -47,6 +48,8 @@ def save_file(items, path):
 
 
 def parse():
+    URL = input('Print URL: ')
+    URL = URL.strip()
     html = get_html(URL)
     if html.status_code == 200:
         olx = []
@@ -57,6 +60,7 @@ def parse():
             olx.extend(get_content(html.text))
         save_file(olx, FILE)
         print(f'Got {len(olx)} matches')
+        os.startfile(FILE)
     else:
         print('Error')
 
