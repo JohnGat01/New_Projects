@@ -1,6 +1,7 @@
 import pygame
 from pygame.draw import *
 
+
 pygame.init()
 
 FPS = 30
@@ -84,6 +85,7 @@ def cat():
 if __name__ == '__main__':
     window()
     cat()
+
 
 pygame.display.update()
 clock = pygame.time.Clock()
