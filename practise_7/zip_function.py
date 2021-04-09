@@ -1,0 +1,5 @@
+profit = (100, 150, 250, 2200, 450)
+days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
+zip_list = zip(days, profit)
+print(dict(zip_list))
+print(sum(profit), '$/week')
