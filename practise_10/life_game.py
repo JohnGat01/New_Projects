@@ -55,10 +55,13 @@ class Man:
         dice = randint(1, 2)
         if self.fullness <= 20:
             self.eat()
+
         elif self.money <= 100:
             self.go_work()
+
         elif self.food <= 20:
             self.buy_food()
+
         else:
             if dice == 1:
                 self.go_work()
@@ -69,40 +72,22 @@ class Man:
         if self.money >= 20200:
             self.houses += 1
             self.money -= 20000
+
         if self.fullness <= 20:
             self.eat()
             self.money += self.houses * 30
-            # if self.houses == 1:
-            #     self.money += 300
-            # elif self.houses == 2:
-            #     self.money += 400
+
         elif self.money <= 100:
             self.go_work()
             self.money += self.houses * 30
-            # if self.houses == 1:
-            #     self.money += 200
-            # elif self.houses == 2:
-            #     self.money += 400
-            # else:
-            #     return
+
         elif self.food <= 20:
             self.buy_food()
             self.money += self.houses * 30
-            # if self.houses == 1:
-            #     self.money += 200
-            # elif self.houses == 2:
-            #     self.money += 400
-            # else:
-            #     return
+
         else:
             self.go_work()
             self.money += self.houses * 30
-            # if self.houses == 1:
-            #     self.money += 200
-            # elif self.houses == 2:
-            #     self.money += 400
-            # else:
-            #     return
 
 
 antons_son = Man(name="Anton's son")
