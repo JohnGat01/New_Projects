@@ -1,55 +1,70 @@
 import time
-#from pprint import pprint
 from random import randint
 
 start_time = time.time()
 file = 'bulgakov_master-i-margarita.txt'
 
 
-stat = {}
-sequence = ' '
+class Chatterer:
+    analize_count = 12
+    file = 'bulgakov_master-i-margarita.txt'
 
-with open(file, 'r', encoding='utf8') as file:
-    for line in file:
-        for char in line:
-            if sequence in stat:
-                if char in stat[sequence]:
-                    stat[sequence][char] += 1
-                else:
-                    stat[sequence][char] = 1
-            else:
-                stat[sequence] = {char: 1}
-            sequence = char
-            # sequence = sequence[:1] + char
+    def __init__(self):
+        self.stat = {}
 
-totals = {}
-stat_for_generate = {}
+    def collect(self):
+        sequence = ' ' * self.analize_count
+        with open(self.file, 'r', encoding='utf8') as file:
+            for line in file:
+                line = line[:-1]
+                for char in line:
+                    if sequence in self.stat:
+                        if char in self.stat[sequence]:
+                            self.stat[sequence][char] += 1
+                        else:
+                            self.stat[sequence][char] = 1
+                    else:
+                        self.stat[sequence] = {char: 1}
+                    sequence = sequence[1:] + char
 
-for sequence, char_stat in stat.items():
-    totals[sequence] = 0
-    stat_for_generate[sequence] = []
-    for char, count in char_stat.items():
-        totals[sequence] += count
-        stat_for_generate[sequence].append([count, char])
-    stat_for_generate[sequence].sort(reverse=True)
+    def prepare(self):
+        self.totals = {}
+        self.stat_for_generate = {}
+        for sequence, char_stat in self.stat.items():
+            self.totals[sequence] = 0
+            self.stat_for_generate[sequence] = []
+            for char, count in char_stat.items():
+                self.totals[sequence] += count
+                self.stat_for_generate[sequence].append([count, char])
+            self.stat_for_generate[sequence].sort(reverse=True)
 
-char_to_generate = 1000
-printed = 0
+    def chat(self, N):
+        printed = 0
+        spaces_printed = 0
+        sequence = ' ' * self.analize_count
 
-while printed < char_to_generate:
-    char_stat = stat_for_generate[sequence]
-    total = totals[sequence]
-    dice = randint(1, total)
-    pos = 0
-    for count, char in char_stat:
-        pos += count
-        if dice <= pos:
-            break
-    print(char, end='')
-    printed += 1
-    sequence = char
+        while printed < N:
+            char_stats = self.stat_for_generate[sequence]
+            total = self.totals[sequence]
+            dice = randint(1, total)
+            pos = 0
+            for count, char in char_stats:
+                pos += count
+                if dice <= pos:
+                    break
+            print(char, end='')
+            if char == ' ':
+                spaces_printed += 1
+                if spaces_printed >= 10:
+                    print()
+                    spaces_printed = 0
+            printed += 1
+            sequence = sequence[1:] + char
 
 
-print("--- %s seconds ---" % (time.time() - start_time))
+chatterer = Chatterer()
+chatterer.collect()
+chatterer.prepare()
+chatterer.chat(N=2000)
 
-
+print('\n', '\n', ''"========== %s seconds ==========" % (time.time() - start_time))
